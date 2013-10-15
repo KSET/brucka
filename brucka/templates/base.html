@@ -1,0 +1,87 @@
+{% load compress %}
+{% load base_extras %}
+<!DOCTYPE html>
+<html lang="hr-HR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Brucosijada FER-a">
+    <meta name="author" content="droan@kset.org">
+    <link rel="shortcut icon" href="{{ STATIC_URL }}brucka/img/favicon.png?v=0">
+
+    <title>{% block title %}Brucošijada FER-a{% endblock %}</title>
+    {# css #}
+    {% compress css %}
+      <link rel="stylesheet" href="{{ STATIC_URL }}brucka/css/bootstrap.css">
+      <link rel="stylesheet" href="{{ STATIC_URL }}brucka/css/bootstrap-rowlink.css">
+      <link rel="stylesheet" href="{{ STATIC_URL }}brucka/css/base.css">
+    {% endcompress %}
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+
+  <body>
+    <div class="navbar navbar-static-top navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Brucosijada</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="{% active request 'tickets' %}"><a href="{% url 'tickets:home' %}">Brucoši</a></li>
+          </ul>
+          <ul class="nav navbar-nav pull-right">
+            {% if user.is_authenticated %}
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user }}<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  {% if user.is_superuser %}
+                    <li><a href="/admin/"><i class="glyphicon glyphicon-wrench"></i> Admin</a></li>
+                  {% endif %}
+                  <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i> Odjava</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li><a href="{% url 'login' %}">Prijava</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      {# Flash message #}
+      {% if messages %}
+        <div class="row">
+          {% for msg in messages %}
+            <div class="col-md-12">
+              <div class="alert {% flash_msg_tags msg %}">
+                {{ msg }}<a class="close" data-dismiss="alert" href="#">&times;</a>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {# Content #}
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    {# scripts #}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    {% compress js %}
+      <script src="{{ STATIC_URL }}brucka/js/bootstrap.js"></script>
+      <script src="{{ STATIC_URL }}brucka/js/bootstrap-rowlink.js"></script>
+      <script src="{{ STATIC_URL }}brucka/js/base.js"></script>
+    {% endcompress %}
+    {% compress js %}
+      {% block js %}
+      {% endblock %}
+    {% endcompress %}
+  </body>
+</html>

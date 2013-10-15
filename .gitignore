@@ -1,0 +1,11 @@
+.DS_Store
+*.db
+*.pyc
+*.pyo
+*.egg-info
+*.svn
+*.sublime-*
+static/*
+media/*
+log/*
+brucka/settings/prod.py

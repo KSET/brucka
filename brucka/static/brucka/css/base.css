@@ -1,0 +1,17 @@
+
+#bootstrap_pagination.pagination {
+    margin: 5px 0;
+}
+
+table.table-detail > tbody > tr:first-child > td {
+    border: none;
+}
+table.table-detail > tbody > tr > td {
+    padding-left: 15px;
+}
+table.table-detail > tbody > tr > td:first-child {
+    text-align: right;
+    white-space: nowrap;
+    padding-left: 0px;
+    width: 100px;
+}
