@@ -18,7 +18,7 @@ def search_students(query, status):
         students = students.filter(ticket__isnull=False)
     for (i, q) in enumerate(query.split(' ')):
         if not q: continue
-        students = students.filter(Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(username__icontains=q) | Q(email__icontains=q))
+        students = students.filter(Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(username__icontains=q) | Q(email__icontains=q) | Q(ticket__number__icontains=q))
     return students
 
 @login_required
