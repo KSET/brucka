@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -18,7 +17,7 @@ def search_students(query, status):
         students = students.filter(ticket__isnull=False)
     for (i, q) in enumerate(query.split(' ')):
         if not q: continue
-        students = students.filter(Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(username__icontains=q) | Q(email__icontains=q) | Q(ticket__number__icontains=q))
+        students = students.filter(Q(first_name__startswith=q) | Q(last_name__startswith=q) | Q(username__startswith=q) | Q(email__startswith=q) | Q(ticket__number__startswith=q))
     return students
 
 @login_required
@@ -41,12 +40,11 @@ def student_detail(request, student_id):
 
 # !view
 def send_confirmation_mail(student):
-    subject = settings.EMAIL_SUBJECT_PREFIX + 'Potvrda o kupljenoj karti'
-    sender = 'no-reply@kset.org'
-    message = 'Kupili ste kartu za Brucošijadu FER-a'
+    subject = u'[Brucosijada FER-a 2013] Potvrda o kupljenoj karti'
+    message = u'Kupili ste kartu %s za Brucošijadu FER-a koja će se održati 8. studenog 2013.' % student.ticket.number
     recipients = [student.email]
     try:
-        send_mail(subject, message, sender, recipients)
+        send_mail(subject, message, None, recipients)
         return True
     except Exception:
         return False
@@ -68,5 +66,5 @@ def student_send_mail(request, student_id):
     if send_confirmation_mail(student):
         messages.add_message(request, messages.INFO, u'Poslan je e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email)
     else:
-        messages.add_message(request, messages.ERROR, u'Trenutačno se nemože poslati e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email)
+        messages.add_message(request, messages.ERROR, u'Trenutačno se ne može poslati e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email)
     return redirect('tickets:student_list')

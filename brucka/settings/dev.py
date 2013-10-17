@@ -5,6 +5,8 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 # ... etc.
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # pip install django-debug-toolbar
 MIDDLEWARE_CLASSES += (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
