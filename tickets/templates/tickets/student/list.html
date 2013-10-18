@@ -23,6 +23,10 @@
               <li><a href="?q={{ query }}&status=1">S kartom{% if status == '1' %} <i class="glyphicon glyphicon-ok"></i>{% endif %}</a></li>
             </ul>
           </div>
+          {# export #}
+          <div class="pull-right">
+            <a href="{% url 'tickets:student_export' %}?q={{ query }}&status={{ status }}" target="_blank" class="btn btn-info"><i class="glyphicon glyphicon-print"></i> PDF</a>
+          </div>
         </form>
       </div>
     </div>

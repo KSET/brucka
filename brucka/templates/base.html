@@ -40,7 +40,7 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user }}<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  {% if user.is_superuser %}
+                  {% if user.is_staff %}
                     <li><a href="/admin/"><i class="glyphicon glyphicon-wrench"></i> Admin</a></li>
                   {% endif %}
                   <li><a href="{% url 'logout' %}"><i class="glyphicon glyphicon-off"></i> Odjava</a></li>

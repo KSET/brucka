@@ -4,7 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from tickets import printer
 from tickets.models import Student, Ticket
 
 
@@ -30,6 +32,15 @@ def student_list(request):
         'query': query,
         'status': status,
     })
+
+@login_required
+def student_export(request):
+    query = request.GET.get('q', '')
+    status = request.GET.get('status', '')
+    students = search_students(query, status)
+    response = HttpResponse(printer.students_pdf(students), content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=%s' % 'Brucosi_Karte.pdf'
+    return response
 
 @login_required
 def student_detail(request, student_id):
