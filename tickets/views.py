@@ -19,7 +19,7 @@ def search_students(query, status):
         students = students.filter(ticket__isnull=False)
     for (i, q) in enumerate(query.split(' ')):
         if not q: continue
-        students = students.filter(Q(first_name__startswith=q) | Q(last_name__startswith=q) | Q(username__startswith=q) | Q(email__startswith=q) | Q(ticket__number__startswith=q))
+        students = students.filter(Q(first_name__istartswith=q) | Q(last_name__istartswith=q) | Q(username__istartswith=q) | Q(email__istartswith=q) | Q(ticket__number__istartswith=q))
     return students
 
 @login_required
@@ -63,7 +63,7 @@ def send_confirmation_mail(student):
 @login_required
 def student_buy_ticket(request, student_id):
     student = get_object_or_404(Student, id=student_id)
-    if student.get_ticket_or_none():
+    if student.ticket_or_none:
         raise PermissionDenied
     ticket = Ticket.objects.create(student=student)
     messages.add_message(request, messages.SUCCESS, u'Karta %s za brucoša %s je uspješno kupljena' % (ticket.number, student.full_name))
@@ -72,7 +72,7 @@ def student_buy_ticket(request, student_id):
 @login_required
 def student_send_mail(request, student_id):
     student = get_object_or_404(Student, id=student_id)
-    if not student.get_ticket_or_none():
+    if not student.ticket_or_none:
         raise PermissionDenied
     if send_confirmation_mail(student):
         messages.add_message(request, messages.INFO, u'Poslan je e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email)

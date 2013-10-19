@@ -15,7 +15,7 @@ pdfmetrics.registerFont(TTFont('Arial', FONT_PATH))
 
 TABLE_STYLE = TableStyle([
     ('FONTNAME',(0,0),(-1,-1),'Arial'),
-    ('FONTSIZE',(0,0),(-1,-1), 12),
+    ('FONTSIZE',(0,0),(-1,-1), 11),
     ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
     ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
     ('BOX', (0,0), (-1,-1), 0.25, colors.black),
@@ -51,7 +51,7 @@ def students_pdf(students):
     doc = SimpleDocTemplate(output)
     elements = []
     data = [(u'Prezime', u'Ime', u'Korisničko ime', u'E-mail', u'Karta')]
-    data += [(s.last_name, s.first_name, s.username, s.email, s.ticket.number if s.get_ticket_or_none() else '') for s in students]
+    data += [(s.last_name, s.first_name, s.username, s.email, s.ticket.number if s.ticket_or_none else '') for s in students]
     table = Table(data, style=TABLE_STYLE)
     elements.append(table)
     doc.build(elements, canvasmaker=NumberedCanvas)

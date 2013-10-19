@@ -15,7 +15,8 @@ class Student(models.Model):
     def full_name(self):
         return u'%s %s' % (self.first_name, self.last_name)
 
-    def get_ticket_or_none(self):
+    @property
+    def ticket_or_none(self):
         try:
             return self.ticket
         except ObjectDoesNotExist:
@@ -32,7 +33,7 @@ class Student(models.Model):
 class Ticket(models.Model):
     number = models.CharField('br. karte', max_length=30, unique=True)
     student = models.OneToOneField(Student, related_name='ticket')
-    creation_time = models.DateTimeField('vrijeme unosa', auto_now_add=True)
+    creation_time = models.DateTimeField('vrijeme prodaje', auto_now_add=True)
 
     class Meta:
         ordering = ['-creation_time']

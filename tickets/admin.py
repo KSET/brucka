@@ -8,7 +8,7 @@ class TicketInline(admin.StackedInline):
 
 class StudentAdmin(admin.ModelAdmin):
     def admin_ticket_display(self, obj):
-        return obj.get_ticket_or_none() != None
+        return obj.ticket_or_none != None
     admin_ticket_display.boolean = True
     admin_ticket_display.short_description = 'karta'
     admin_ticket_display.admin_order_field  = 'student__ticket__number'
