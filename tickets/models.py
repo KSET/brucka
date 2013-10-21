@@ -9,7 +9,7 @@ class Student(models.Model):
     first_name = models.CharField('ime', max_length=30)
     last_name = models.CharField('prezime', max_length=30)
     username = models.CharField('username', max_length=30, unique=True)
-    email = models.CharField('e-mail', max_length=30, unique=True)
+    email = models.EmailField('e-mail', max_length=75, unique=True)
 
     @property
     def full_name(self):
