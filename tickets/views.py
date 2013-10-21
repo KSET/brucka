@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.template.loader import render_to_string
 from tickets import printer
 from tickets.models import Student, Ticket
 
@@ -52,7 +53,7 @@ def student_detail(request, student_id):
 # !view
 def send_confirmation_mail(student):
     subject = u'[Brucosijada FER-a 2013] Potvrda o kupljenoj karti'
-    message = u'Kupili ste kartu %s za Brucošijadu FER-a koja će se održati 8. studenog 2013.' % student.ticket.number
+    message = render_to_string('tickets/student/mail.html', {'student': student})
     recipients = [student.email]
     try:
         send_mail(subject, message, None, recipients)
