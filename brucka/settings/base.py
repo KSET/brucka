@@ -17,12 +17,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_DIR, 'sqlite.db'),                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(PROJECT_DIR, 'sqlite.db'),
     }
 }
 
@@ -55,7 +51,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'compressor.finders.CompressorFinder',
 )
 
@@ -63,7 +59,7 @@ STATICFILES_FINDERS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -133,25 +129,25 @@ FILEBROWSER_ADMIN_VERSIONS = ['thumbnail', 'small', 'medium', 'big', 'large']
 FILEBROWSER_ADMIN_THUMBNAIL = 'admin_thumbnail'
 
 FILEBROWSER_SELECT_FORMATS = {
-    'File': ['Folder','Document',],
-    'Image': ['Image',],
-    'Media': ['Video','Sound'],
+    'File': ['Folder', 'Document'],
+    'Image': ['Image'],
+    'Media': ['Video', 'Sound'],
     'Document': ['Document'],
     # for TinyMCE we can also define lower-case items
     'image': ['Image'],
-    'file': ['Folder','Image','Document',],
+    'file': ['Folder', 'Image', 'Document'],
 }
 
 # tinymce settings, add/remove buttons and so on
 TINYMCE_DEFAULT_CONFIG = {
     'theme': "advanced",
-    'theme_advanced_toolbar_location' : "top",
-    'theme_advanced_resizing' : True,
-    'plugins' : 'table,contextmenu,paste,autoresize,media,lists,style',
+    'theme_advanced_toolbar_location': "top",
+    'theme_advanced_resizing': True,
+    'plugins': 'table,contextmenu,paste,autoresize,media,lists,style',
     # 'height' : 600,
     # 'width' : 800,
-    'theme_advanced_buttons1': "formatselect,style,bold,italic,underline,separator,bullist,separator,outdent,indent,separator,undo,redo",
-    'theme_advanced_buttons2': "cleanup,code,separator,lists,pasteword,table,contextmenu,media,style,image,link",
+    'theme_advanced_buttons1': 'formatselect,style,bold,italic,underline,separator,bullist,separator,outdent,indent,separator,undo,redo',
+    'theme_advanced_buttons2': 'cleanup,code,separator,lists,pasteword,table,contextmenu,media,style,image,link',
     # 'theme_advanced_buttons3': "",
 }
 

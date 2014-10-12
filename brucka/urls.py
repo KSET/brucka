@@ -4,11 +4,11 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from filebrowser.sites import site
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     url(r'^tickets/', include('tickets.urls', namespace='tickets', app_name='tickets')),
 
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),

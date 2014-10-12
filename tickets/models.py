@@ -6,14 +6,10 @@ from django.dispatch.dispatcher import receiver
 
 
 class Student(models.Model):
-    first_name = models.CharField('ime', max_length=30)
-    last_name = models.CharField('prezime', max_length=30)
-    username = models.CharField('username', max_length=30, unique=True)
-    email = models.EmailField('e-mail', max_length=75, unique=True)
-
-    @property
-    def full_name(self):
-        return u'%s %s' % (self.first_name, self.last_name)
+    code = models.CharField('jmbag', max_length=30, unique=True)
+    first_name = models.CharField('ime', max_length=30, blank=True)
+    last_name = models.CharField('prezime', max_length=30, blank=True)
+    email = models.EmailField('e-mail', max_length=75, blank=True)
 
     @property
     def ticket_or_none(self):
@@ -23,11 +19,12 @@ class Student(models.Model):
             return None
 
     class Meta:
-        ordering = ['last_name', 'first_name']
+        ordering = ['code']
         verbose_name = 'brucoš'
         verbose_name_plural = 'brucoši'
+
     def __unicode__(self):
-        return self.full_name
+        return u'%s %s %s' % (self.first_name, self.last_name, self.code)
 
 
 class Ticket(models.Model):
@@ -39,8 +36,10 @@ class Ticket(models.Model):
         ordering = ['-creation_time']
         verbose_name = 'karta'
         verbose_name_plural = 'karte'
+
     def __unicode__(self):
         return u'Karta za %s' % unicode(self.student)
+
 
 @receiver(pre_save, sender=Ticket)
 def exam_gen_id(sender, instance, **kwargs):

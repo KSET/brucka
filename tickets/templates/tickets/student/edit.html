@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load bootstrap %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="well">
+        <form class="form-horizontal" action="" method="POST">
+          <legend>Brucoš</legend>
+          <table class="table table-detail">
+            <tbody>
+              <tr><td><strong>JMBAG</strong></td><td>{{ student.code }}</td></tr>
+            </tbody>
+          </table>
+          <fieldset>
+            {% csrf_token %}
+            {{ form|bootstrap_horizontal:'col-md-3' }}
+          </fieldset>
+          <table class="table table-detail">
+            <tbody>
+                <td><strong>Karta</strong></td>
+                <td>
+                  {% if student.ticket %}
+                    <span class="label label-success">Kupljena</span> &nbsp;{{ student.ticket.number }}
+                  {% else %}
+                    <span class="label label-danger">Nije kupljena</span>
+                  {% endif %}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+              <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-floppy-disk"></i> Spremi</button>
+              <a class="btn btn-default" href="{% url 'tickets:student_list' %}">Povratak</a>
+              {% if student.email and not student.ticket %}
+                <a class="btn btn-warning" href="{% url 'tickets:student_buy_ticket' student.id %}"><i class="glyphicon glyphicon-gift"></i> Kupi kartu</a>
+              {% elif student.email and student.ticket %}
+                <a class="btn btn-info" href="{% url 'tickets:student_send_mail' student.id %}"><i class="glyphicon glyphicon-send"></i> Pošalji mail</a>
+              {% endif %}
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
