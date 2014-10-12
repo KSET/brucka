@@ -11,6 +11,7 @@ from datetime import datetime
 from django.db import transaction
 from tickets.models import Student
 
+
 @transaction.commit_on_success
 def main(argv=[]):
     if len(argv) != 1:
@@ -22,7 +23,8 @@ def main(argv=[]):
     count = 0
     created_count = 0
     for data in (line.split(', ') for line in lines):
-        obj, created = Student.objects.get_or_create(first_name=data[0], last_name=data[1], username=data[2], email=data[3])
+        obj, created = Student.objects.get_or_create(
+            first_name=data[0], last_name=data[1], username=data[2], email=data[3])
         count += 1
         if created:
             created_count += 1

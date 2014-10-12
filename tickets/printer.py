@@ -14,13 +14,14 @@ FONT_PATH = os.path.join(settings.STATIC_ROOT, 'brucka/fonts/Arial.ttf')
 pdfmetrics.registerFont(TTFont('Arial', FONT_PATH))
 
 TABLE_STYLE = TableStyle([
-    ('FONTNAME',(0,0),(-1,-1),'Arial'),
-    ('FONTSIZE',(0,0),(-1,-1), 11),
-    ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-    ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
-    ('BOX', (0,0), (-1,-1), 0.25, colors.black),
-    ('BACKGROUND', (0,0), (-1,0), colors.lightgrey),
+    ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+    ('FONTSIZE', (0, 0), (-1, -1), 11),
+    ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+    ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+    ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
 ])
+
 
 class NumberedCanvas(canvas.Canvas):
     def __init__(self, *args, **kwargs):

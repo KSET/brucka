@@ -26,6 +26,7 @@ class Student(models.Model):
         ordering = ['last_name', 'first_name']
         verbose_name = 'brucoš'
         verbose_name_plural = 'brucoši'
+
     def __unicode__(self):
         return self.full_name
 
@@ -39,8 +40,10 @@ class Ticket(models.Model):
         ordering = ['-creation_time']
         verbose_name = 'karta'
         verbose_name_plural = 'karte'
+
     def __unicode__(self):
         return u'Karta za %s' % unicode(self.student)
+
 
 @receiver(pre_save, sender=Ticket)
 def exam_gen_id(sender, instance, **kwargs):

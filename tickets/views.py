@@ -19,9 +19,13 @@ def search_students(query, status):
     elif status == '1':
         students = students.filter(ticket__isnull=False)
     for (i, q) in enumerate(query.split(' ')):
-        if not q: continue
-        students = students.filter(Q(first_name__istartswith=q) | Q(last_name__istartswith=q) | Q(username__istartswith=q) | Q(email__istartswith=q) | Q(ticket__number__istartswith=q))
+        if not q:
+            continue
+        students = students.filter(Q(first_name__istartswith=q) | Q(last_name__istartswith=q) |
+                                   Q(username__istartswith=q) | Q(email__istartswith=q) |
+                                   Q(ticket__number__istartswith=q))
     return students
+
 
 @login_required
 def student_list(request):
@@ -34,6 +38,7 @@ def student_list(request):
         'status': status,
     })
 
+
 @login_required
 def student_export(request):
     query = request.GET.get('q', '')
@@ -43,12 +48,14 @@ def student_export(request):
     response['Content-Disposition'] = 'filename=%s' % 'Brucosi_Karte.pdf'
     return response
 
+
 @login_required
 def student_detail(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     return render(request, 'tickets/student/detail.html', {
         'student': student,
     })
+
 
 # !view
 def send_confirmation_mail(student):
@@ -61,14 +68,17 @@ def send_confirmation_mail(student):
     except Exception:
         return False
 
+
 @login_required
 def student_buy_ticket(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     if student.ticket_or_none:
         raise PermissionDenied
     ticket = Ticket.objects.create(student=student)
-    messages.add_message(request, messages.SUCCESS, u'Karta %s za brucoša %s je uspješno kupljena' % (ticket.number, student.full_name))
+    msg = u'Karta %s za brucoša %s je uspješno kupljena' % (ticket.number, student.full_name)
+    messages.add_message(request, messages.SUCCESS, msg)
     return redirect('tickets:student_send_mail', student_id=student.id)
+
 
 @login_required
 def student_send_mail(request, student_id):
@@ -76,7 +86,9 @@ def student_send_mail(request, student_id):
     if not student.ticket_or_none:
         raise PermissionDenied
     if send_confirmation_mail(student):
-        messages.add_message(request, messages.INFO, u'Poslan je e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email)
+        msg = u'Poslan je e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email
+        messages.add_message(request, messages.INFO, msg)
     else:
-        messages.add_message(request, messages.ERROR, u'Trenutačno se ne može poslati e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email)
+        msg = u'Trenutačno se ne može poslati e-mail s potvrdom o kupljenoj karti na adresu %s' % student.email
+        messages.add_message(request, messages.ERROR, msg)
     return redirect('tickets:student_list')
