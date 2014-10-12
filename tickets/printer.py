@@ -10,11 +10,11 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.rl_config import defaultPageSize
 import os
 
-FONT_PATH = os.path.join(settings.STATIC_ROOT, 'brucka/fonts/Arial.ttf')
-pdfmetrics.registerFont(TTFont('Arial', FONT_PATH))
+FONT_PATH = os.path.join(settings.STATIC_ROOT, 'brucka/fonts/OpenSans-Regular.ttf')
+pdfmetrics.registerFont(TTFont('OpenSans', FONT_PATH))
 
 TABLE_STYLE = TableStyle([
-    ('FONTNAME', (0, 0), (-1, -1), 'Arial'),
+    ('FONTNAME', (0, 0), (-1, -1), 'OpenSans'),
     ('FONTSIZE', (0, 0), (-1, -1), 11),
     ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
     ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
@@ -42,7 +42,7 @@ class NumberedCanvas(canvas.Canvas):
         canvas.Canvas.save(self)
 
     def draw_page_number(self, page_count):
-        self.setFont('Arial', 9)
+        self.setFont('OpenSans', 9)
         page_width = defaultPageSize[0]
         self.drawRightString(page_width - 2.54*cm, 2*cm, '%d/%d' % (self._pageNumber, page_count))
 
@@ -51,8 +51,10 @@ def students_pdf(students):
     output = StringIO()
     doc = SimpleDocTemplate(output)
     elements = []
-    data = [(u'Prezime', u'Ime', u'Korisničko ime', u'E-mail', u'Karta')]
-    data += [(s.last_name, s.first_name, s.username, s.email, s.ticket.number if s.ticket_or_none else '') for s in students]
+    data = [(u'JMBAG', u'Prezime', u'Ime', u'E-mail', u'Karta')]
+    for s in students:
+        ticket = s.ticket.number if s.ticket_or_none else ''
+        data.append((s.code, s.last_name, s.first_name, s.email, ticket))
     table = Table(data, style=TABLE_STYLE)
     elements.append(table)
     doc.build(elements, canvasmaker=NumberedCanvas)
