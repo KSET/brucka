@@ -90,7 +90,7 @@ def student_send_mail(request, student_id):
 
 # !view
 def send_confirmation_mail(student):
-    subject = u'[Brucosijada FER-a 2014] Potvrda o kupljenoj karti'
+    subject = u'[Brucosijada FER-a] Potvrda o kupljenoj karti'
     message = render_to_string('tickets/student/mail.html', {'student': student})
     recipients = [student.email]
     try:
