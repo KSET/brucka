@@ -7,5 +7,6 @@
 *.sublime-*
 static/*
 media/*
+data/*
 log/*
 brucka/settings/prod.py
