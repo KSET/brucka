@@ -3,11 +3,14 @@ import os
 from django.core.urlresolvers import reverse_lazy
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '../..'))
+PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+
+APP_ENV = 'prod'
 
 ADMINS = (
     ('Andro Rezic', 'droan@kset.org'),
@@ -159,3 +162,4 @@ ENDLESS_PAGINATION_PREVIOUS_LABEL = u'«'
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
 # LOGIN_REDIRECT_URL = reverse_lazy('main:home')
+
