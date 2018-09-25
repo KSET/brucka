@@ -8,6 +8,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.rl_config import defaultPageSize
+from datetime import timedelta
 import os
 
 FONT_PATH = os.path.join(settings.STATIC_ROOT, 'brucka/fonts/OpenSans-Regular.ttf')
@@ -51,10 +52,17 @@ def students_pdf(students):
     output = StringIO()
     doc = SimpleDocTemplate(output)
     elements = []
-    data = [(u'JMBAG', u'Prezime', u'Ime', u'E-mail', u'Karta')]
+    data = [(u'JMBAG', u'Prezime', u'Ime', u'E-mail', u'Karta', u'Vrijeme prodaje')]
     for s in students:
-        ticket = s.ticket.number if s.ticket_or_none else ''
-        data.append((s.code, s.last_name, s.first_name, s.email, ticket))
+        if s.ticket_or_none:
+            ticket_number = s.ticket.number
+            # fetch ticket creation time and strip off microseconds and timezone info (they're not needed in the output)
+            ticket_creation_time = s.ticket.creation_time.replace(microsecond=0, tzinfo=None)
+        else:
+            ticket_creation_time = ''
+            ticket_number = ''
+
+        data.append((s.code, s.last_name, s.first_name, s.email, ticket_number, ticket_creation_time))
     table = Table(data, style=TABLE_STYLE)
     elements.append(table)
     doc.build(elements, canvasmaker=NumberedCanvas)
