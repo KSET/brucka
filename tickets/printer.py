@@ -67,3 +67,24 @@ def students_pdf(students):
     elements.append(table)
     doc.build(elements, canvasmaker=NumberedCanvas)
     return output.getvalue()
+
+
+def dates_pdf(students):
+    output = StringIO()
+    doc = SimpleDocTemplate(output)
+    elements = []
+    data = [(u'Datum', u'Broj Karata')]
+    tickets_per_day = {}
+    for s in students:
+        if s.ticket_or_none:
+            try:
+                tickets_per_day[s.ticket.creation_time.date()] += 1
+            except KeyError:
+                tickets_per_day[s.ticket.creation_time.date()] = 1
+    dates = sorted(tickets_per_day.keys())
+    for date in dates:
+        data.append((date, tickets_per_day[date]))
+    table = Table(data, style=TABLE_STYLE)
+    elements.append(table)
+    doc.build(elements, canvasmaker=NumberedCanvas)
+    return output.getvalue()
