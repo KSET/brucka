@@ -26,6 +26,7 @@
           {# export #}
           <div class="pull-right">
             <a href="{% url 'tickets:student_export' %}?q={{ query }}&status={{ status }}" target="_blank" class="btn btn-info"><i class="glyphicon glyphicon-print"></i> PDF</a>
+            <a href="{% url 'tickets:dates_export' %}?q={{ query }}&status={{ status }}" target="_blank" class="btn btn-info"><i class="glyphicon glyphicon-print"></i> Po datumima</a>
           </div>
         </form>
       </div>
