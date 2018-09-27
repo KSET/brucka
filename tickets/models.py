@@ -3,13 +3,23 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.db.models.signals import pre_save
 from django.dispatch.dispatcher import receiver
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+import re
+
+
+def validate_fer_email(address):
+    if re.match(".*@fer\.hr", address) is None:
+        raise ValidationError(
+            _('Unesite valjanu FER e-mail adresu, oblika "@fer.hr".')
+            )
 
 
 class Student(models.Model):
     code = models.CharField('jmbag', max_length=30, unique=True)
     first_name = models.CharField('ime', max_length=30, blank=True)
     last_name = models.CharField('prezime', max_length=30, blank=True)
-    email = models.EmailField('e-mail', max_length=75, blank=True)
+    email = models.EmailField('e-mail', max_length=75, blank=True, validators=[validate_fer_email, ])
 
     @property
     def ticket_or_none(self):
