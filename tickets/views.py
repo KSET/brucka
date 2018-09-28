@@ -51,6 +51,16 @@ def student_export(request):
 
 
 @login_required
+def dates_export(request):
+    query = request.GET.get('q', '')
+    status = request.GET.get('status', '')
+    students = search_students(query, status)
+    response = HttpResponse(printer.dates_pdf(students), content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=%s' % 'Prodane_Karte.pdf'
+    return response
+
+
+@login_required
 def student_edit(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     form = StudentForm(request.POST or None, instance=student)
