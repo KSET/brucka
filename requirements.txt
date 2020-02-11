@@ -1,4 +1,4 @@
-Django==1.5.4
+Django==1.11.28
 Pillow==2.2.1
 django-bootstrap-form==3.0
 django-compressor==1.3
